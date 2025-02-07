@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Poker Tracker App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS for a mobile-friendly layout -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="p-3">
+  <div class="container">
+    <h1 class="mb-4">Poker Tracker</h1>
+    
+    <!-- Login Section -->
+    <div id="loginSection" class="card mb-3">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <button id="startNewGameBtn" class="btn btn-success mb-2">Start New Game</button>
+        <hr>
+        <form id="joinGameForm">
+          <div class="form-group">
+            <label for="joinGameCode">Enter Game Code to Join</label>
+            <input type="text" class="form-control" id="joinGameCode" placeholder="Game Code" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Join Game</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Main App Section (hidden until login) -->
+    <div id="appSection" style="display:none;">
+      <!-- Display current game code -->
+      <div id="gameInfo" class="mb-3 alert alert-info"></div>
+
+      <!-- New Game Setup Section (for the initiator) -->
+      <div id="newGameSetup" class="card mb-3" style="display:none;">
+        <div class="card-header">New Game Setup</div>
+        <div class="card-body">
+          <form id="newGameForm">
+            <!-- Step 1: Ask for number of players -->
+            <div id="step1">
+              <div class="form-group">
+                <label for="numPlayers">How many players?</label>
+                <input type="number" class="form-control" id="numPlayers" min="1" required>
+              </div>
+              <button type="button" id="startPlayersBtn" class="btn btn-primary">Next</button>
+            </div>
+
+            <!-- Step 2: Enter each player's details one at a time -->
+            <div id="step2" style="display: none;">
+              <div class="form-group">
+                <label id="playerLabel" for="playerNameInput">Player Name</label>
+                <input type="text" class="form-control" id="playerNameInput" placeholder="Player name" required>
+              </div>
+              <div class="form-group">
+                <label for="extraChipsInput">Extra Chips (optional)</label>
+                <input type="number" class="form-control" id="extraChipsInput" placeholder="Extra chips" min="0">
+              </div>
+              <div class="form-group">
+                <label for="extraFromInput">Taken From (default: Bank)</label>
+                <input type="text" class="form-control" id="extraFromInput" placeholder="e.g., bank or another player" value="bank">
+              </div>
+              <div class="form-group">
+                <label for="extraPaymentInput">Payment Type for Extra Chips</label>
+                <select class="form-control" id="extraPaymentInput">
+                  <option value="cash">Paid Cash</option>
+                  <option value="iou">IOU</option>
+                </select>
+              </div>
+              <button type="button" id="addPlayerBtn" class="btn btn-primary">Add Player</button>
+            </div>
+
+            <!-- Display list of players added so far -->
+            <div id="playersList" class="mt-3"></div>
+
+            <!-- Finalize New Game -->
+            <button type="submit" id="finalizeGameBtn" class="btn btn-success mt-3" style="display: none;">Start New Game</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Legacy Add Player Section -->
+      <div class="card mb-3">
+        <div class="card-header">Add Player</div>
+        <div class="card-body">
+          <form id="playerForm">
+            <div class="form-group">
+              <input type="text" class="form-control" id="playerName" placeholder="Player name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Player</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Transaction Section -->
+      <div class="card mb-3">
+        <div class="card-header">Add Transaction</div>
+        <div class="card-body">
+          <form id="transactionForm">
+            <div class="form-group">
+              <label for="txType">Transaction Type</label>
+              <select class="form-control" id="txType" required>
+                <option value="">Select Type</option>
+                <option value="buy">Buy (from Bank)</option>
+                <option value="transfer">Transfer (between players)</option>
+              </select>
+            </div>
+            <div class="form-group" id="fromGroup" style="display: none;">
+              <label for="txFrom">From (Player Name)</label>
+              <input type="text" class="form-control" id="txFrom" placeholder="Sender name">
+            </div>
+            <div class="form-group">
+              <label for="txTo">To (Player Name)</label>
+              <input type="text" class="form-control" id="txTo" placeholder="Receiver name" required>
+            </div>
+            <div class="form-group">
+              <label for="txAmount">Amount (chips)</label>
+              <input type="number" class="form-control" id="txAmount" placeholder="Amount" required min="1">
+            </div>
+            <div class="form-group" id="paymentGroup" style="display: block;">
+              <label for="paymentType">Payment Type</label>
+              <select class="form-control" id="paymentType">
+                <option value="cash">Paid Cash</option>
+                <option value="iou">IOU</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Transaction</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Summary Section -->
+      <div class="card">
+        <div class="card-header">Game Summary</div>
+        <div class="card-body">
+          <div id="summary"></div>
+          <button id="refreshBtn" class="btn btn-secondary mt-3">Refresh Summary</button>
+        </div>
+      </div>
+    </div> <!-- end appSection -->
+  </div>
+
+  <!-- jQuery and Bootstrap JS (optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
